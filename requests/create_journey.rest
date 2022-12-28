@@ -1,0 +1,13 @@
+POST http://localhost:3001/api/journeys
+Content-Type: application/json
+
+{
+  "departureTime": "2021-05-31T23:41:33",
+  "returnTime": "2021-06-01T00:06:01",
+  "departureStationId": 30,
+  "departureStationName": "Itämerentori",
+  "returnStationId": 19,
+  "returnStationName": "Rautatientori / itä",
+  "coveredDistanceM": 2964,
+  "durationSec": 1464
+}
