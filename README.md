@@ -14,11 +14,17 @@ Download also dataset that has information about Helsinki Region Transport’s (
 * Stations dataset: <https://opendata.arcgis.com/datasets/726277c507ef4914b0aec3cbcfcbfafc_0.csv>
 * License and information: <https://www.avoindata.fi/data/en/dataset/hsl-n-kaupunkipyoraasemat/resource/a23eef3a-cc40-4608-8aa2-c730d17e8902>
 
-Rename stations dataset to be bikeStations.csv
-
+Rename stations dataset to be bikeStations.csv .
+The three journey datasets names stay the same: 2021-05.csv, 2021-06.csv, 2021-07.csv .
 Move these csv files to folder csvFiles.
 
-To import this one stations (bikeStations.csv) file to an empty collection in MongoDb run command: node parseStationsCsvFiles.js
+To import this one stations (bikeStations.csv) file to an empty collection in MongoDb run command: 
+node parseStationsCsvFiles.js
+
+To import those three journey files to an empty collection in MongoDb run command:
+node parseJourneyCsvFiles.js
+
+I'm using MongoDB's free M0 shared cluster, where storage size is only 512 MB. So I could not add all journeys to database. I imported 457 stations and 1804278 journeys to MongoDB.
 
 ### Server side
 To start server side run commmand: npm start 
