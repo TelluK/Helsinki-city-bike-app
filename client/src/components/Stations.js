@@ -20,22 +20,24 @@ const Stations = () => {
     <div>
       <h2>City Bike stations</h2>
       <table>
-        <tr>
-          <th>Nimi</th>
-          <th>Namn</th>
-          <th>Name</th>
-          <th>Osoite</th>
-          <th>Kaupunki</th>
-        </tr>
-        {stations.map((s) => (
-          <tr key={s.ID}>
-            <td>{s.Nimi}</td>
-            <td>{s.Namn}</td>
-            <td>{s.Name}</td>
-            <td>{s.Osoite}</td>
-            <td>{s.Kaupunki}</td>
+        <tbody>
+          <tr>
+            <th>Nimi</th>
+            <th>Namn</th>
+            <th>Name</th>
+            <th>Osoite</th>
+            <th>Kaupunki</th>
           </tr>
-        ))}
+          {stations.map((s) => (
+            <tr key={s.ID}>
+              <td>{s.Nimi}</td>
+              <td>{s.Namn}</td>
+              <td>{s.Name}</td>
+              <td>{s.Osoite}</td>
+              <td>{s.Kaupunki}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   );
