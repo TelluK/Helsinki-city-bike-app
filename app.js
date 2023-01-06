@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const Journey = require('./models/journey');
 const Station = require('./models/station');
+const cors = require('cors');
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
 
@@ -12,6 +13,7 @@ mongoose
   .then(() => console.log('connected to MongoDB'))
   .catch((error) => console.log('error connecting to MongoDB:', error.message));
 
+app.use(cors());
 app.use(express.json());
 
 app.get('/', (request, response) => {
