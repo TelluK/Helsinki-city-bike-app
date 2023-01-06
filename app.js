@@ -20,12 +20,26 @@ app.get('/', (request, response) => {
   response.json('Hello from city bikes!');
 });
 
-app.get('/api/stations', (request, response) => {
-  Station.find()
-    .limit(3)
-    .then((station) => {
-      response.json(station);
-    });
+const ITEMS_PER_PAGE = 15;
+
+app.get('/api/stations', async (request, response) => {
+  const page = request.query.page || 1;
+
+  const skipCount = (page - 1) * ITEMS_PER_PAGE;
+
+  const stationsCount = await Station.estimatedDocumentCount({});
+
+  const pageCount = stationsCount / ITEMS_PER_PAGE;
+
+  const stations = await Station.find().skip(skipCount).limit(ITEMS_PER_PAGE);
+
+  response.json({
+    pagination: {
+      stationsCount,
+      pageCount,
+    },
+    stations,
+  });
 });
 
 app.get('/api/journeys', (request, response) => {
