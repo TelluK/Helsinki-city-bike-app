@@ -42,12 +42,24 @@ app.get('/api/stations', async (request, response) => {
   });
 });
 
-app.get('/api/journeys', (request, response) => {
-  Journey.find()
-    .limit(3)
-    .then((journey) => {
-      response.json(journey);
-    });
+app.get('/api/journeys', async (request, response) => {
+  const page = request.query.page || 1;
+
+  const skipCount = (page - 1) * ITEMS_PER_PAGE;
+
+  const journeysCount = await Journey.estimatedDocumentCount({});
+
+  const pageCount = journeysCount / ITEMS_PER_PAGE;
+
+  const journeys = await Journey.find().skip(skipCount).limit(ITEMS_PER_PAGE);
+
+  response.json({
+    pagination: {
+      journeysCount,
+      pageCount,
+    },
+    journeys,
+  });
 });
 
 app.post('/api/journeys', (request, response) => {
