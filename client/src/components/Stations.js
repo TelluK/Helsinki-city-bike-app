@@ -1,22 +1,14 @@
-import axios from 'axios';
 import { useState, useEffect } from 'react';
-
-const getStations = (baseUrl) => {
-  const request = axios.get(baseUrl);
-  return request.then((response) => {
-    console.log('response.data: ', response.data);
-    return response.data;
-  });
-};
+import { getStations } from '../services/stations';
 
 const Stations = () => {
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
   const [stations, setStations] = useState([]);
-  const baseUrl = `http://localhost:3001/api/stations?page=${page}`;
+  const url = `http://localhost:3001/api/stations?page=${page}`;
 
   useEffect(() => {
-    getStations(baseUrl)
+    getStations(url)
       .then((data) => {
         setStations(data.stations);
         setPageCount(Math.ceil(data.pagination.pageCount));
