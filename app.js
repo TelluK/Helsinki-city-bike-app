@@ -23,14 +23,10 @@ app.get('/', (request, response) => {
 const ITEMS_PER_PAGE = 15;
 
 app.get('/api/stations', async (request, response) => {
-  const page = request.query.page || 1;
-
-  const skipCount = (page - 1) * ITEMS_PER_PAGE;
-
+  const page = request.query.page || 0;
+  const skipCount = page * ITEMS_PER_PAGE;
   const stationsCount = await Station.estimatedDocumentCount({});
-
   const pageCount = stationsCount / ITEMS_PER_PAGE;
-
   const stations = await Station.find().skip(skipCount).limit(ITEMS_PER_PAGE);
 
   response.json({
