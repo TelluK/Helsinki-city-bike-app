@@ -19,6 +19,14 @@ stationsRouter.get('/', async (request, response) => {
   });
 });
 
+// get single station information from DB
+stationsRouter.get('/:id', async (request, response) => {
+  const stationID = request.params.id;
+  const station = await Station.findOne({ ID: stationID }).exec();
+
+  response.json(station);
+});
+
 stationsRouter.post('/', (request, response) => {
   console.log('post new station');
   const body = request.body;
