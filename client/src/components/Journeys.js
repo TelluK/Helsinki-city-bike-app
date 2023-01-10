@@ -9,6 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from './TablePagination';
+import { Link } from 'react-router-dom';
 
 const Journeys = () => {
   const [pageNumber, setPageNumber] = useState(0);
@@ -58,9 +59,15 @@ const Journeys = () => {
                 <TableCell align="left">{journey.departureTime}</TableCell>
                 <TableCell align="left">{journey.returnTime}</TableCell>
                 <TableCell align="left">
-                  {journey.departureStationName}
+                  <Link to={`../stations/${journey.departureStationId}`}>
+                    {journey.departureStationName}
+                  </Link>
                 </TableCell>
-                <TableCell align="left">{journey.returnStationName}</TableCell>
+                <TableCell align="left">
+                  <Link to={`../stations/${journey.returnStationId}`}>
+                    {journey.returnStationName}
+                  </Link>
+                </TableCell>
                 <TableCell align="left">{journey.coveredDistanceM}</TableCell>
                 <TableCell align="left">{journey.durationSec}</TableCell>
               </TableRow>

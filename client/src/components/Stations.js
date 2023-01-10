@@ -9,6 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from './TablePagination';
+import { Link } from 'react-router-dom';
 
 const Stations = () => {
   const [pageNumber, setPageNumber] = useState(0);
@@ -55,9 +56,21 @@ const Stations = () => {
                   key={station.ID}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell align="left">{station.Nimi}</TableCell>
-                  <TableCell align="left">{station.Namn}</TableCell>
-                  <TableCell align="left">{station.Name}</TableCell>
+                  <TableCell align="left">
+                    <Link to={`${station.ID}`} state={{ station: station }}>
+                      {station.Nimi}
+                    </Link>
+                  </TableCell>
+                  <TableCell align="left">
+                    <Link to={`${station.ID}`} state={{ station: station }}>
+                      {station.Namn}
+                    </Link>
+                  </TableCell>
+                  <TableCell align="left">
+                    <Link to={`${station.ID}`} state={{ station: station }}>
+                      {station.Name}
+                    </Link>
+                  </TableCell>
                   <TableCell align="left">{station.Osoite}</TableCell>
                   <TableCell align="left">{station.Kaupunki}</TableCell>
                 </TableRow>
