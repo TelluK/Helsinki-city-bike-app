@@ -30,6 +30,18 @@ const Journeys = () => {
     setPageNumber(newpage);
   };
 
+  const convertMetersToKilometers = (meters) => {
+    return meters / 1000;
+  };
+
+  const convertSecondsToMinutesAndSeconds = (timeInSeconds) => {
+    let fullMinutes = Math.floor(timeInSeconds / 60);
+    let remainingSeconds = timeInSeconds - fullMinutes * 60;
+    let secondsText = remainingSeconds.toString();
+    // return time in string minutes:seconds e.g. 6:06
+    return `${fullMinutes}:${secondsText.padStart(2, 0)}`;
+  };
+
   return (
     <Container>
       <h2>City Bike journeys</h2>
@@ -46,8 +58,8 @@ const Journeys = () => {
               <TableCell align="left">Return time</TableCell>
               <TableCell align="left">Departure station</TableCell>
               <TableCell align="left">Return station</TableCell>
-              <TableCell align="left">Covered distance (m)</TableCell>
-              <TableCell align="left">Duration (s)</TableCell>
+              <TableCell align="right">Covered distance (km)</TableCell>
+              <TableCell align="right">Duration (min)</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -68,8 +80,12 @@ const Journeys = () => {
                     {journey.returnStationName}
                   </Link>
                 </TableCell>
-                <TableCell align="left">{journey.coveredDistanceM}</TableCell>
-                <TableCell align="left">{journey.durationSec}</TableCell>
+                <TableCell align="right">
+                  {convertMetersToKilometers(journey.coveredDistanceM)}
+                </TableCell>
+                <TableCell align="right">
+                  {convertSecondsToMinutesAndSeconds(journey.durationSec)}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
