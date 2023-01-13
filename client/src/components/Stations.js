@@ -9,6 +9,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from './TablePagination';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 
 const Stations = () => {
@@ -33,7 +35,11 @@ const Stations = () => {
   return (
     <div>
       <Container>
-        <h2>City Bike stations</h2>
+        <Box sx={{ padding: 1 }}>
+          <Typography variant="h4" align="left">
+            Stations
+          </Typography>
+        </Box>
         <TableContainer component={Paper} elevation={10}>
           <TablePagination
             page={pageNumber}
@@ -43,11 +49,9 @@ const Stations = () => {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell align="left">Nimi</TableCell>
-                <TableCell align="left">Namn</TableCell>
                 <TableCell align="left">Name</TableCell>
-                <TableCell align="left">Osoite</TableCell>
-                <TableCell align="left">Kaupunki</TableCell>
+                <TableCell align="left">Address</TableCell>
+                <TableCell align="left">City</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -56,16 +60,6 @@ const Stations = () => {
                   key={station.ID}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell align="left">
-                    <Link to={`${station.ID}`} state={{ station: station }}>
-                      {station.Nimi}
-                    </Link>
-                  </TableCell>
-                  <TableCell align="left">
-                    <Link to={`${station.ID}`} state={{ station: station }}>
-                      {station.Namn}
-                    </Link>
-                  </TableCell>
                   <TableCell align="left">
                     <Link to={`${station.ID}`} state={{ station: station }}>
                       {station.Name}
