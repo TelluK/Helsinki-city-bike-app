@@ -4,10 +4,14 @@ import Container from '@mui/material/Container';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { getSingleStation } from '../services/stations';
+import { getJourneyStatsForStation } from '../services/journeys';
 
 const StationDetails = () => {
   const [station, setStation] = useState({});
+  const [stats, setStats] = useState({});
   const params = useParams();
   // get stationID from current URL, using useParams hook
   const stationID = params.id;
@@ -22,29 +26,59 @@ const StationDetails = () => {
     } else if (location.state.station) {
       setStation(location.state.station);
     }
+
+    getJourneyStatsForStation(stationID).then((data) => {
+      setStats(data.stats);
+    });
   }, []);
 
-  return (
-    <Container>
-      <h2>{`City Bike station: ${station.Nimi}`}</h2>
-      <List dense={false}>
-        <ListItem>
-          <ListItemText primary={`Nimi: ${station.Nimi}`} />
-        </ListItem>
+  const statsText = (value) => {
+    return value ? (
+      <>
         <ListItem>
           <ListItemText
-            primary={`Osoite: ${station.Osoite} ${station.Kaupunki}`}
+            primary={`Number of journeys starting from the station: ${stats.numberOfJourneysStartingFromStation}`}
           />
         </ListItem>
         <ListItem>
-          <ListItemText primary={`Namn: ${station.Namn}`} />
+          <ListItemText
+            primary={`Number of journeys ending at the station: ${stats.numberOfJourneysEndingAtStation}`}
+          />
+        </ListItem>
+      </>
+    ) : (
+      <>
+        <ListItem>
+          <ListItemText
+            primary={`Number of journeys starting from the station: ?`}
+          />
         </ListItem>
         <ListItem>
-          <ListItemText primary={`Adress: ${station.Adress} ${station.Stad}`} />
+          <ListItemText
+            primary={`Number of journeys ending at the station: ?`}
+          />
+        </ListItem>
+      </>
+    );
+  };
+
+  return (
+    <Container>
+      <Box sx={{ padding: 1 }}>
+        <Typography variant="h4" align="left">
+          {station.Name}
+        </Typography>
+      </Box>
+      <List dense={false}>
+        <ListItem>
+          <ListItemText primary={`Station name: ${station.Name}`} />
         </ListItem>
         <ListItem>
-          <ListItemText primary={`Name: ${station.Name}`} />
+          <ListItemText
+            primary={`Address: ${station.Osoite} ${station.Kaupunki}`}
+          />
         </ListItem>
+        {statsText(stats.numberOfJourneysStartingFromStation)}
       </List>
     </Container>
   );
