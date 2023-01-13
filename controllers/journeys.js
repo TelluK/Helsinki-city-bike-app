@@ -19,6 +19,29 @@ journeysRouter.get('/', async (request, response) => {
   });
 });
 
+// get journey stats for one station from database
+journeysRouter.get('/:stationID', async (request, response) => {
+  try {
+    const stationID = request.params.stationID || 0;
+    const numberOfJourneysStartingFromStation = await Journey.find({
+      departureStationId: stationID,
+    }).count();
+    const numberOfJourneysEndingAtStation = await Journey.find({
+      returnStationId: stationID,
+    }).count();
+
+    response.json({
+      stats: {
+        numberOfJourneysStartingFromStation,
+        numberOfJourneysEndingAtStation,
+      },
+      stationID,
+    });
+  } catch (error) {
+    console.log('Error:', error.message);
+  }
+});
+
 journeysRouter.post('/', (request, response) => {
   console.log('post new journey');
   const body = request.body;
