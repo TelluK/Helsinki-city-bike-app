@@ -9,6 +9,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from './TablePagination';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 
 const Journeys = () => {
@@ -42,9 +44,28 @@ const Journeys = () => {
     return `${fullMinutes}:${secondsText.padStart(2, 0)}`;
   };
 
+  const dateAndTimeOptions = {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+  };
+
+  // return date and time in format: day.month.year hour.minute.second
+  const convertTimeString = (timeString) => {
+    const date = new Date(timeString);
+    return new Intl.DateTimeFormat('fi-FI', dateAndTimeOptions).format(date);
+  };
+
   return (
     <Container>
-      <h2>City Bike journeys</h2>
+      <Box sx={{ padding: 1 }}>
+        <Typography variant="h4" align="left">
+          Journeys
+        </Typography>
+      </Box>
       <TableContainer component={Paper} elevation={10}>
         <TablePagination
           page={pageNumber}
@@ -54,8 +75,8 @@ const Journeys = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="left">Departure time</TableCell>
-              <TableCell align="left">Return time</TableCell>
+              <TableCell align="left">Departure</TableCell>
+              <TableCell align="left">Return</TableCell>
               <TableCell align="left">Departure station</TableCell>
               <TableCell align="left">Return station</TableCell>
               <TableCell align="right">Covered distance (km)</TableCell>
@@ -65,11 +86,15 @@ const Journeys = () => {
           <TableBody>
             {journeys.map((journey) => (
               <TableRow
-                key={journey.ID}
+                key={journey.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell align="left">{journey.departureTime}</TableCell>
-                <TableCell align="left">{journey.returnTime}</TableCell>
+                <TableCell align="left">
+                  {convertTimeString(journey.departureTime)}
+                </TableCell>
+                <TableCell align="left">
+                  {convertTimeString(journey.returnTime)}
+                </TableCell>
                 <TableCell align="left">
                   <Link to={`../stations/${journey.departureStationId}`}>
                     {journey.departureStationName}
