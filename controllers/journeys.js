@@ -1,14 +1,14 @@
 const journeysRouter = require('express').Router();
 const Journey = require('../models/journey');
 
-const ITEMS_PER_PAGE = 15;
-
+// get journeys from DB, with pagination
 journeysRouter.get('/', async (request, response) => {
   const page = request.query.page || 0;
-  const skipCount = page * ITEMS_PER_PAGE;
+  const rowsPerPage = request.query.rowsPerPage || 15;
+  const skipCount = page * rowsPerPage;
   const journeysCount = await Journey.estimatedDocumentCount({});
-  const pageCount = journeysCount / ITEMS_PER_PAGE;
-  const journeys = await Journey.find().skip(skipCount).limit(ITEMS_PER_PAGE);
+  const pageCount = journeysCount / rowsPerPage;
+  const journeys = await Journey.find().skip(skipCount).limit(rowsPerPage);
 
   response.json({
     pagination: {

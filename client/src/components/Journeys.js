@@ -16,20 +16,25 @@ import { Link } from 'react-router-dom';
 const Journeys = () => {
   const [pageNumber, setPageNumber] = useState(0);
   const [tableRowCount, setTableRowCount] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(15);
   const [journeys, setJourneys] = useState([]);
-  const url = `http://localhost:3001/api/journeys?page=${pageNumber}`;
 
   useEffect(() => {
-    getJourneys(url)
+    getJourneys(pageNumber, rowsPerPage)
       .then((data) => {
         setJourneys(data.journeys);
         setTableRowCount(data.pagination.journeysCount);
       })
       .catch((error) => console.log('Error', error));
-  }, [pageNumber]);
+  }, [pageNumber, rowsPerPage]);
 
   const handlePageChange = (event, newpage) => {
     setPageNumber(newpage);
+  };
+
+  const handleRowsPerPageChange = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPageNumber(0);
   };
 
   const convertMetersToKilometers = (meters) => {
@@ -71,6 +76,8 @@ const Journeys = () => {
           page={pageNumber}
           tableRowCount={tableRowCount}
           handlePageChange={handlePageChange}
+          handleRowsPerPageChange={handleRowsPerPageChange}
+          rowsPerPage={rowsPerPage}
         />
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -119,6 +126,8 @@ const Journeys = () => {
           page={pageNumber}
           tableRowCount={tableRowCount}
           handlePageChange={handlePageChange}
+          handleRowsPerPageChange={handleRowsPerPageChange}
+          rowsPerPage={rowsPerPage}
         />
       </TableContainer>
     </Container>

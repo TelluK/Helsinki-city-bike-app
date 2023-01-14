@@ -16,20 +16,25 @@ import { Link } from 'react-router-dom';
 const Stations = () => {
   const [pageNumber, setPageNumber] = useState(0);
   const [tableRowCount, setTableRowCount] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(15);
   const [stations, setStations] = useState([]);
-  const url = `http://localhost:3001/api/stations?page=${pageNumber}`;
 
   useEffect(() => {
-    getStations(url)
+    getStations(pageNumber, rowsPerPage)
       .then((data) => {
         setStations(data.stations);
         setTableRowCount(data.pagination.stationsCount);
       })
       .catch((error) => console.log('Error', error));
-  }, [pageNumber]);
+  }, [pageNumber, rowsPerPage]);
 
   const handlePageChange = (event, newpage) => {
     setPageNumber(newpage);
+  };
+
+  const handleRowsPerPageChange = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPageNumber(0);
   };
 
   return (
@@ -45,6 +50,8 @@ const Stations = () => {
             page={pageNumber}
             tableRowCount={tableRowCount}
             handlePageChange={handlePageChange}
+            handleRowsPerPageChange={handleRowsPerPageChange}
+            rowsPerPage={rowsPerPage}
           />
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -75,6 +82,8 @@ const Stations = () => {
             page={pageNumber}
             tableRowCount={tableRowCount}
             handlePageChange={handlePageChange}
+            handleRowsPerPageChange={handleRowsPerPageChange}
+            rowsPerPage={rowsPerPage}
           />
         </TableContainer>
       </Container>

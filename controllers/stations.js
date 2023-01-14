@@ -1,14 +1,14 @@
 const stationsRouter = require('express').Router();
 const Station = require('../models/station');
 
-const ITEMS_PER_PAGE = 15;
-
+// get stations from DB, with pagination
 stationsRouter.get('/', async (request, response) => {
   const page = request.query.page || 0;
-  const skipCount = page * ITEMS_PER_PAGE;
+  const rowsPerPage = request.query.rowsPerPage || 15;
+  const skipCount = page * rowsPerPage;
   const stationsCount = await Station.estimatedDocumentCount({});
-  const pageCount = stationsCount / ITEMS_PER_PAGE;
-  const stations = await Station.find().skip(skipCount).limit(ITEMS_PER_PAGE);
+  const pageCount = stationsCount / rowsPerPage;
+  const stations = await Station.find().skip(skipCount).limit(rowsPerPage);
 
   response.json({
     pagination: {
