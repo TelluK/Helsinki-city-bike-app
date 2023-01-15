@@ -33,33 +33,14 @@ const StationDetails = () => {
   }, []);
 
   const statsText = (value) => {
-    return value ? (
-      <>
-        <ListItem>
-          <ListItemText
-            primary={`Number of journeys starting from the station: ${stats.numberOfJourneysStartingFromStation}`}
-          />
-        </ListItem>
-        <ListItem>
-          <ListItemText
-            primary={`Number of journeys ending at the station: ${stats.numberOfJourneysEndingAtStation}`}
-          />
-        </ListItem>
-      </>
-    ) : (
-      <>
-        <ListItem>
-          <ListItemText
-            primary={`Number of journeys starting from the station: ?`}
-          />
-        </ListItem>
-        <ListItem>
-          <ListItemText
-            primary={`Number of journeys ending at the station: ?`}
-          />
-        </ListItem>
-      </>
-    );
+    const textsBeforeStatResults = [
+      `Making calculations... please wait a few seconds`,
+    ];
+    const textsWithStatResults = [
+      `- starting from the station: ${stats.numberOfJourneysStartingFromStation}`,
+      `- ending at the station: ${stats.numberOfJourneysEndingAtStation}`,
+    ];
+    return value ? textsWithStatResults : textsBeforeStatResults;
   };
 
   return (
@@ -78,8 +59,19 @@ const StationDetails = () => {
             primary={`Address: ${station.Osoite} ${station.Kaupunki}`}
           />
         </ListItem>
-        {statsText(stats.numberOfJourneysStartingFromStation)}
       </List>
+      <Box sx={{ padding: 1 }}>
+        <Typography variant="h5">Number of journeys:</Typography>
+        <List dense={false}>
+          {statsText(stats.numberOfJourneysStartingFromStation).map((value) => {
+            return (
+              <ListItem>
+                <ListItemText primary={value} />
+              </ListItem>
+            );
+          })}
+        </List>
+      </Box>
     </Container>
   );
 };
