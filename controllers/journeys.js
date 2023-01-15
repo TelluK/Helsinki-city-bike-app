@@ -23,17 +23,37 @@ journeysRouter.get('/', async (request, response) => {
 journeysRouter.get('/:stationID', async (request, response) => {
   try {
     const stationID = request.params.stationID || 0;
-    const numberOfJourneysStartingFromStation = await Journey.find({
-      departureStationId: stationID,
-    }).count();
-    const numberOfJourneysEndingAtStation = await Journey.find({
-      returnStationId: stationID,
-    }).count();
+    const stationIDNumber = parseInt(stationID);
+
+    const result = await Journey.aggregate([
+      {
+        $facet: {
+          JourneysStarting: [
+            { $match: { departureStationId: stationIDNumber } },
+            { $count: 'total' },
+          ],
+          JourneysEnding: [
+            { $match: { returnStationId: stationIDNumber } },
+            { $count: 'total' },
+          ],
+        },
+      },
+      {
+        $project: {
+          JourneysStarting: {
+            $arrayElemAt: ['$JourneysStarting.total', 0],
+          },
+          JourneysEnding: {
+            $arrayElemAt: ['$JourneysEnding.total', 0],
+          },
+        },
+      },
+    ]);
 
     response.json({
       stats: {
-        numberOfJourneysStartingFromStation,
-        numberOfJourneysEndingAtStation,
+        numberOfJourneysStartingFromStation: result[0].JourneysStarting,
+        numberOfJourneysEndingAtStation: result[0].JourneysEnding,
       },
       stationID,
     });
