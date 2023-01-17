@@ -12,21 +12,23 @@ import TablePagination from './TablePagination';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
+import Search from './Search';
 
 const Stations = () => {
   const [pageNumber, setPageNumber] = useState(0);
   const [tableRowCount, setTableRowCount] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(15);
   const [stations, setStations] = useState([]);
+  const [searchByName, setSearchByName] = useState('');
 
   useEffect(() => {
-    getStations(pageNumber, rowsPerPage)
+    getStations(pageNumber, rowsPerPage, searchByName)
       .then((data) => {
         setStations(data.stations);
         setTableRowCount(data.pagination.stationsCount);
       })
       .catch((error) => console.log('Error', error));
-  }, [pageNumber, rowsPerPage]);
+  }, [pageNumber, rowsPerPage, searchByName]);
 
   const handlePageChange = (event, newpage) => {
     setPageNumber(newpage);
@@ -34,6 +36,11 @@ const Stations = () => {
 
   const handleRowsPerPageChange = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
+    setPageNumber(0);
+  };
+
+  const handleSearch = (word) => {
+    setSearchByName(word);
     setPageNumber(0);
   };
 
@@ -45,6 +52,7 @@ const Stations = () => {
             Stations
           </Typography>
         </Box>
+        <Search handleSearch={handleSearch} />
         <TableContainer component={Paper} elevation={10}>
           <TablePagination
             page={pageNumber}
