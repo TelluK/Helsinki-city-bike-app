@@ -1,14 +1,29 @@
 const stationsRouter = require('express').Router();
 const Station = require('../models/station');
 
-// get stations from DB, with pagination
+// get stations from DB, with pagination and search
 stationsRouter.get('/', async (request, response) => {
   const page = request.query.page || 0;
   const rowsPerPage = request.query.rowsPerPage || 15;
+  const searchForName = request.query.searchForName || '';
+  let query = {};
+  let stationsCount = 0;
+
+  if (searchForName !== '') {
+    query = {
+      Name: { $regex: request.query.searchForName, $options: 'i' },
+    };
+    stationsCount = await Station.find(query).count();
+  } else {
+    stationsCount = await Station.estimatedDocumentCount();
+  }
+
   const skipCount = page * rowsPerPage;
-  const stationsCount = await Station.estimatedDocumentCount({});
   const pageCount = stationsCount / rowsPerPage;
-  const stations = await Station.find().skip(skipCount).limit(rowsPerPage);
+  const stations = await Station.find(query)
+    .sort({ Name: 1 }) // 1 = ascending order
+    .skip(skipCount)
+    .limit(rowsPerPage);
 
   response.json({
     pagination: {
@@ -25,6 +40,20 @@ stationsRouter.get('/:id', async (request, response) => {
   const station = await Station.findOne({ ID: stationID }).exec();
 
   response.json(station);
+});
+
+// search, get stations if name contains specifig string
+stationsRouter.get('/search/:stationNameString', async (request, response) => {
+  try {
+    // options i = case insensitive, upper- and lowercase letters as being the same
+    const stations = await Station.find({
+      Name: { $regex: request.params.stationNameString, $options: 'i' },
+    }).exec();
+
+    response.json(stations);
+  } catch (error) {
+    console.log('Error:', error.message);
+  }
 });
 
 stationsRouter.post('/', (request, response) => {
