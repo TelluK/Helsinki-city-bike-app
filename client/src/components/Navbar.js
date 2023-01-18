@@ -20,11 +20,10 @@ const Navbar = () => {
 
   return (
     <AppBar position={'static'}>
-      <StyledBox></StyledBox>
       <StyledToolbar>
         <StyledBox>
           <MenuItem component={Link} to="/">
-            City Bike
+            City Bikes
           </MenuItem>
           <MenuItem component={Link} to="/journeys">
             Journeys
