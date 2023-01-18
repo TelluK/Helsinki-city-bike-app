@@ -36,6 +36,7 @@ const Home = () => {
         <Typography variant="body1" align="left" gutterBottom>
           <p>
             There are more than 400 city bike stations in Helsinki and Espoo.
+            Station data is owned by Helsinki Region Transport (HSL).
           </p>
           <StyledButton
             variant="contained"
@@ -43,7 +44,10 @@ const Home = () => {
           >
             Check bike stations
           </StyledButton>
-          <p>Journeys page lists city bike journeys from 2021.</p>
+          <p>
+            Journeys page lists city bike journeys from 2021. Journey data is
+            owned by City Bike Finland.
+          </p>
           <StyledButton
             variant="contained"
             onClick={() => navigate('/journeys')}
