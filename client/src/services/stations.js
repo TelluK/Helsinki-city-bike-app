@@ -9,7 +9,7 @@ export const getStations = (pageNumber, rowsPerPage, searchForName) => {
 };
 
 export const getSingleStation = (stationID) => {
-  const request = axios.get(`http://localhost:3001/api/stations/${stationID}`);
+  const request = axios.get(`${baseUrl}/${stationID}`);
   return request.then((response) => response.data);
 };
 
