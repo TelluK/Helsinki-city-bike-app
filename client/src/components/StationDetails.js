@@ -61,7 +61,9 @@ const StationDetails = () => {
         </ListItem>
       </List>
       <Box sx={{ padding: 1 }}>
-        <Typography variant="h5">Number of journeys:</Typography>
+        <Typography variant="h5" align="left">
+          Number of journeys:
+        </Typography>
         <List dense={false}>
           {statsText(stats.numberOfJourneysStartingFromStation).map((value) => {
             return (
