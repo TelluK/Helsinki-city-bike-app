@@ -11,6 +11,9 @@ mongoose
   .then(() => console.log('connected to MongoDB'))
   .catch((error) => console.log('error connecting to MongoDB:', error.message));
 
+// express checks if build directory contains static files
+app.use(express.static('build'));
+
 const stationsRouter = require('./controllers/stations');
 const journeysRouter = require('./controllers/journeys');
 app.use(cors());
