@@ -5,7 +5,7 @@ City Bikes web application lists city bicycle stations in Helsinki and Espoo and
 Application was developed as a response for [Solita Dev Academy 2023 pre-assignment](https://github.com/solita/dev-academy-2023-exercise).
 
 ## Features
------------------
+
 ### How data was imported
 
  * Data was imported from csv files to database in MongoDB.
@@ -37,7 +37,6 @@ Application was developed as a response for [Solita Dev Academy 2023 pre-assignm
 
 
 ## Technologies used
------------------
 
 * [Node](https://nodejs.org/en/)
 * [Express](https://expressjs.com/)
@@ -57,7 +56,6 @@ I'm using MongoDB's free M0 shared cluster, where storage size is only 512 MB. S
 
 
 ## Running it locally
------------------
 
 [Git](https://git-scm.com/) and [Node](https://nodejs.org/en/) (comes with npm) need to be installed on computer. Node version 16 was used in development.
 1. clone this repository 
@@ -76,7 +74,6 @@ If client side compiled successfully, then application can be viewed in the brow
 
 
 ## Database
------------------
 
 MongoDB database is used to store journeys and stations collections. Mongoose is used to define journey and station schemas, models and communicating with database in MongoDB. Folder `models` contains journey and station schema and model.
 
@@ -144,14 +141,12 @@ To import those three journey files to an empty collection in MongoDb run comman
 I'm using MongoDB's free M0 shared cluster, where storage size is only 512 MB. So I could not add all journeys to database. I imported 457 stations and 1804278 journeys to MongoDB.
 
 ## Client side
------------------
 
 All frontend code is in `client` folder, where `package.json` file contains all client side dependencies.
 
 To start client side run commmand `npm start`
 
 ## Server side
------------------
 
 Everything exect client folder is server side code. At root of this repository is `package.json` file that contains all server side dependencies.
 
@@ -160,7 +155,6 @@ To start server run commmand `npm start`
 To start server in development mode with [nodemon](https://www.npmjs.com/package/nodemon) run command `npm run dev`
 
 ## API
------------------
 
 ### stations operations
 
@@ -171,7 +165,6 @@ To start server in development mode with [nodemon](https://www.npmjs.com/package
 | GET    | /stations/search/{stationNameString} | search stations by name, get stations list (not used in app) |
 | POST   | /stations | create a new station (server has endpoint, not used in app)  |
 
-
 ### journeys operations
 
 |        |           |           |
@@ -179,9 +172,8 @@ To start server in development mode with [nodemon](https://www.npmjs.com/package
 | GET    | /journeys?page&rowsPerPage | get journeys list with pagination |
 | GET    | /journeys/{stationID} | get journey stats for single station  |
 | POST   | /journeys | create a new journey (server has endpoint, not used in app)  |
-## File hierarchy
------------------
 
+## File hierarchy
 
 ```
 │   .env                      ## add .env file locally
@@ -242,5 +234,3 @@ To start server in development mode with [nodemon](https://www.npmjs.com/package
         get_station.rest
         get_stations_if_name_contains.rest
 ```
-
-
